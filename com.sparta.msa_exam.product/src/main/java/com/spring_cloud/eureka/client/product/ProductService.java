@@ -36,4 +36,14 @@ public class ProductService {
                 .price(product.getPrice())
                 .build());
     }
+
+    public ProductResponseDto getProduct(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 상품을 찾을 수 없습니다."));
+        return ProductResponseDto.builder()
+                .name(product.getName())
+                .productId(product.getId())
+                .price(product.getPrice())
+                .build();
+    }
 }

@@ -30,6 +30,14 @@ public class ProductController {
                 .body(productPage);
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("productId") Long productId) {
+        ProductResponseDto responseDto = productService.getProduct(productId);
+        return ResponseEntity.ok()
+                .header("Server-Port", getServicePort())
+                .body(responseDto);
+    }
+
     private String getServicePort() {
         return String.valueOf(System.getProperty("server.port"));
     }
