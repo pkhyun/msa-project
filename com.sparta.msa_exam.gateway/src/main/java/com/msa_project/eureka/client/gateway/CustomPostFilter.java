@@ -18,13 +18,18 @@ public class CustomPostFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, org.springframework.cloud.gateway.filter.GatewayFilterChain chain) {
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
             ServerHttpResponse response = exchange.getResponse();
+
+            // 응답 상태 코드 로깅
             logger.info("Post Filter: 응답 상태 코드 " + response.getStatusCode());
-            // Add any custom logic here
+
+            String serverPort = exchange.getRequest().getLocalAddress().getPort() + "";
+            response.getHeaders().add("Server-Port", serverPort);
+
         }));
     }
 
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE;  // 마지막에 실행되도록 설정
     }
 }
