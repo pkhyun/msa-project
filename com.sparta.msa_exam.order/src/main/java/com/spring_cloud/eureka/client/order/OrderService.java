@@ -2,6 +2,7 @@ package com.spring_cloud.eureka.client.order;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,6 +76,7 @@ public class OrderService {
                 .build();
     }
 
+    @Cacheable(value = "orders", key = "#orderId", unless = "#result == null", cacheManager = "contentCacheManager")
     @Transactional
     public OrderResponseDto getOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
