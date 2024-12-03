@@ -22,9 +22,6 @@ public class CustomPostFilter implements GlobalFilter, Ordered {
             // 응답 상태 코드 로깅
             logger.info("Post Filter: 응답 상태 코드 " + response.getStatusCode());
 
-            String serverPort = exchange.getRequest().getLocalAddress().getPort() + "";
-            response.getHeaders().add("Server-Port", serverPort);
-
         }));
     }
 
