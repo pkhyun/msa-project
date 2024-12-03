@@ -2,6 +2,17 @@ spring:
   application:
     name: auth-service
 
+  datasource:
+    url: jdbc:mysql://localhost:3306/msaproject  # MySQL 데이터베이스 URL
+    username: root  # MySQL 사용자 이름
+    password: 1234  # MySQL 비밀번호
+    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL 드라이버 클래스
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # 데이터베이스 테이블 자동 생성 및 업데이트 설정
+    show-sql: true  # SQL 쿼리 로그 출력 여부
+
 eureka:
   client:
     service-url:
@@ -10,7 +21,7 @@ eureka:
 service:
   jwt:
     access-expiration: 3600000
-    secret-key: {JWT_SECRET_KEY}
+    secret-key: ${JWT_SECRET_KEY}
 
 server:
   port: 19095
