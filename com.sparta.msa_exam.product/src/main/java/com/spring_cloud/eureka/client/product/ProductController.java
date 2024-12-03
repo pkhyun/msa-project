@@ -16,13 +16,21 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<String> createProduct(@RequestBody CreateProductRequestDto requestDto) {
         productService.createProduct(requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("상품 생성 성공");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .header("Server-Port", getServicePort())  // 응답에 Server-Port 헤더 추가
+                .body("상품 생성 성공");
     }
 
     @GetMapping
     public ResponseEntity<Page<ProductResponseDto>> getProducts(
             @ModelAttribute SearchRequestDto requestDto) {
         Page<ProductResponseDto> productPage = productService.getProducts(requestDto);
-        return ResponseEntity.ok(productPage);
+        return ResponseEntity.ok()
+                .header("Server-Port", getServicePort())  // 응답에 Server-Port 헤더 추가
+                .body(productPage);
+    }
+
+    private String getServicePort() {
+        return String.valueOf(System.getProperty("server.port"));
     }
 }
